@@ -1,0 +1,17 @@
+/* Sidebar top header (Emoti App) */
+.filament-sidebar-header {
+    background-color: #28a745; /* green of your Emoti app */
+    color: white;
+    font-weight: bold;
+}
+
+/* Sidebar menu background */
+.filament-sidebar {
+    background-color: white;
+}
+
+/* Sidebar menu hover */
+.filament-sidebar a:hover {
+    background-color: #28a745;
+    color: white;
+}
