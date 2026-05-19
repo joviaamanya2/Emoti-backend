@@ -9,6 +9,9 @@ class Counselor extends Model
 {
     use HasFactory;
 
+    protected $table = 'counselors';
+
+
     protected $fillable = [
         'name',
         'email',

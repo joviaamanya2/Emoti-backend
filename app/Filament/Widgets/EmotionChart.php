@@ -6,6 +6,8 @@ use Filament\Widgets\ChartWidget;
 
 class EmotionChart extends ChartWidget
 {
+    protected int|string|array $columnSpan = 'half';
+
     protected static ?string $heading = 'Emotion Distribution';
 
     protected function getType(): string
@@ -20,7 +22,7 @@ class EmotionChart extends ChartWidget
                 [
                     'label' => 'Happy',
                     'data' => [65, 59, 80, 81, 56, 85, 90],
-                    'borderColor' => '#5dcc53', // Green
+                    'borderColor' => '#5dcc53',
                     'backgroundColor' => 'rgba(16, 185, 129, 0.1)',
                     'tension' => 0.4,
                     'fill' => true,
@@ -28,7 +30,7 @@ class EmotionChart extends ChartWidget
                 [
                     'label' => 'Sad',
                     'data' => [28, 48, 40, 19, 46, 27, 30],
-                    'borderColor' => '#3b82f6', // Blue
+                    'borderColor' => '#3b82f6',
                     'backgroundColor' => 'transparent',
                     'tension' => 0.4,
                     'borderDash' => [5, 5],
@@ -36,7 +38,7 @@ class EmotionChart extends ChartWidget
                 [
                     'label' => 'Angry',
                     'data' => [10, 15, 20, 10, 25, 10, 5],
-                    'borderColor' => '#ef4444', // Red
+                    'borderColor' => '#ef4444',
                     'backgroundColor' => 'transparent',
                     'tension' => 0.4,
                 ],
@@ -45,3 +47,4 @@ class EmotionChart extends ChartWidget
         ];
     }
 }
+

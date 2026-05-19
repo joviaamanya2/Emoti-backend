@@ -2,11 +2,13 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\LineChartWidget;
 use App\Models\User;
+use Filament\Widgets\LineChartWidget;
 
 class UserChartWidget extends LineChartWidget
 {
+    protected int|string|array $columnSpan = 'half';
+
     protected static string $view = 'filament.widgets.user-chart';
 
     protected function getHeading(): string
@@ -35,3 +37,4 @@ class UserChartWidget extends LineChartWidget
         ];
     }
 }
+

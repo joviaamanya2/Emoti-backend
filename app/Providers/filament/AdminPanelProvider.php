@@ -2,21 +2,9 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,19 +16,24 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             
-            // --- 1. THEME COLORS (GREEN) ---
+            // --- 1. EMOTI GREEN THEME ---
             ->colors([
-                'primary' => Color::Emerald, 
+                'primary' => Color::hex('#10b918'), // Your exact Emoti Green
             ])
             
-            // --- 2. BRAND & CUSTOM CSS ---
-->brandName('Emoti App')
+            // --- 2. BRAND, LOGO & FAVICON ---
+            ->brandName('Emoti App')
+            ->brandLogo(asset('images/emoti-logo.png')) 
+            ->brandLogoHeight('3rem') 
+            ->favicon(asset('images/emoti-favicon.png'))
+
+            // --- 3. YOUR CUSTOM GREEN CSS ---
             ->renderHook(
-                PanelsRenderHook::HEAD_START, 
-                fn () => '<style>
-                    /* Theme: Green/Black/White */
+                'styles.before',
+                fn (): string => '<style>
+                    /* Emoti Theme: Green/White/Black */
                     .fi-sidebar-header {
-                        background-color: #10b981 !important;
+                        background-color: #10b918 !important;
                         color: #fff !important;
                         padding: 1.5rem 1rem;
                         display: flex;
@@ -62,17 +55,17 @@ class AdminPanelProvider extends PanelProvider
                     }
                     .fi-sidebar-item:hover {
                         background-color: #ecfdf5 !important;
-                        color: #047857 !important;
+                        color: #047842 !important;
                     }
                     .fi-sidebar-item.active {
                         background-color: #d1fae5 !important;
-                        color: #047857 !important;
+                        color: #08926b !important;
                         border-right: 3px solid #10b981;
                     }
 
                     /* Primary buttons */
                     :root {
-                        --primary-500: #10b981;
+                        --primary-500: #10b918;
                     }
                     .fi-button {
                         border-radius: 0.5rem;
@@ -80,40 +73,29 @@ class AdminPanelProvider extends PanelProvider
                 </style>'
             )
 
-            // --- 3. REGISTER RESOURCES, PAGES & WIDGETS ---
-            ->resources([
-                \App\Filament\Resources\AppointmentResource::class,
-                \App\Filament\Resources\CounselorResource::class,
-                \App\Filament\Resources\EmotionResource::class,
-                \App\Filament\Resources\RecommendationResource::class,
-                \App\Filament\Resources\FeedbackResource::class,
-                \App\Filament\Resources\UserResource::class,
-                \App\Filament\Resources\AdminResource::class,
-            ])
+            // --- 4. AUTO-DISCOVER (Prevents Class Not Found Errors) ---
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                \App\Filament\Pages\Dashboard::class,
-                \App\Filament\Pages\Settings::class,
+                \Filament\Pages\Dashboard::class,
             ])
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                \App\Filament\Widgets\DashboardStats::class,
-                \App\Filament\Widgets\EmotionChart::class,
-                \App\Filament\Widgets\UserChartWidget::class,
+                \Filament\Widgets\AccountWidget::class,
+                \Filament\Widgets\FilamentInfoWidget::class,
             ])
             
-            // --- 4. AUTH MIDDLEWARE ---
-            ->authMiddleware([
-                Authenticate::class,
-            ])
+            // --- 5. CLEAN MIDDLEWARE ---
             ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
+                \Illuminate\Cookie\Middleware\EncryptCookies::class,
+                \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+                \Illuminate\Session\Middleware\StartSession::class,
+                \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+                \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+                \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            ])
+            ->authMiddleware([
+                \Illuminate\Auth\Middleware\Authenticate::class,
             ]);
     }
 }

@@ -4,16 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Recommendation;
+use App\Models\Session;
 
 class Feedback extends Model
 {
     use HasFactory;
 
+    protected $table = 'feedbacks';
+
     protected $fillable = [
         'user_id',
-        'recommendation_id', // optional, tie to recommendation
-        'session_id',        // optional, tie to session
-        'rating',            // 1-5 stars
+        'recommendation_id',
+        'session_id',
+        'rating',
         'comment',
     ];
 

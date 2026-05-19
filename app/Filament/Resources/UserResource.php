@@ -2,44 +2,60 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\User;
 use App\Filament\Resources\UserResource\Pages;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Columns\TextColumn;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationGroup = 'Users';
-    protected static ?int $navigationSort = 10;
+
+    protected static ?string $navigationGroup = 'User Management';
+
+    protected static ?string $navigationLabel = 'Users';
+
+    protected static ?int $navigationSort = 1;
+
+    public static function canAccess(): bool
+    {
+        return in_array(auth()->user()?->role, ['admin', 'counsellor'], true);
+    }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')
-                ->required(),
+                ->required()
+                ->maxLength(255),
+
             Forms\Components\TextInput::make('email')
                 ->email()
-                ->required(),
-            Forms\Components\TextInput::make('contact'),
+                ->required()
+                ->unique(ignoreRecord: true),
+
+            Forms\Components\TextInput::make('contact')
+                ->maxLength(20),
+
             Forms\Components\Select::make('role')
                 ->options([
                     'user' => 'User',
                     'admin' => 'Admin',
-                    'counsellor' => 'Counselor',
+                    'counsellor' => 'Counsellor',
                 ])
                 ->required(),
+
             Forms\Components\TextInput::make('password')
                 ->password()
-                ->revealable()
                 ->nullable()
+                ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
+                ->dehydrated(fn ($state) => filled($state))
                 ->helperText('Leave blank to keep current password'),
         ]);
     }
@@ -48,17 +64,28 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('email')
+
+                Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('contact')
+
+                Tables\Columns\TextColumn::make('contact')
                     ->toggleable(),
-                TextColumn::make('role')
+
+                Tables\Columns\TextColumn::make('role')
+                    ->formatStateUsing(fn ($state) => ucfirst($state))
+                    ->color(fn (string $state) => match ($state) {
+                        'admin' => 'danger',
+                        'counsellor' => 'warning',
+                        'user' => 'success',
+                        default => 'gray',
+                    })
                     ->sortable(),
-                TextColumn::make('created_at')
+
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -67,11 +94,13 @@ class UserResource extends Resource
                     ->options([
                         'user' => 'User',
                         'admin' => 'Admin',
-                        'counsellor' => 'Counselor',
+                        'counsellor' => 'Counsellor',
                     ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn ($record) => $record->id !== auth()->id()),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -92,4 +121,3 @@ class UserResource extends Resource
         ];
     }
 }
-
