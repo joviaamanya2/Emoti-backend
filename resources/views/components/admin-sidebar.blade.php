@@ -41,17 +41,9 @@
             </a>
         </div>
 
-        <!-- Content Management -->
+        <!-- User content -->
         <div class="space-y-2">
-            <div class="text-xs font-semibold uppercase tracking-wider text-green-700">Content</div>
-
-            <a href="{{ route('admin.testimonials') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a4 4 0 01-4 4H7l-4 3V7a4 4 0 014-4h10a4 4 0 014 4v8z" />
-                </svg>
-                <span class="font-medium">Testimonials</span>
-            </a>
+            <div class="text-xs font-semibold uppercase tracking-wider text-green-700">User content</div>
 
             <a href="{{ route('admin.journals') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -60,6 +52,43 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v4h4" />
                 </svg>
                 <span class="font-medium">Journals</span>
+            </a>
+
+            <a href="{{ route('admin.feedbacks') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4v8z" />
+                </svg>
+                <span class="font-medium">Feedback</span>
+            </a>
+        </div>
+
+        <!-- Content library -->
+        <div class="space-y-2">
+            <div class="text-xs font-semibold uppercase tracking-wider text-green-700">Content library</div>
+
+            <a href="{{ route('admin.videos') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618V15.38a1 1 0 01-1.447.894L15 14V10z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 7H4a2 2 0 00-2 2v6a2 2 0 002 2h7V7z" />
+                </svg>
+                <span class="font-medium">Videos</span>
+            </a>
+
+            <a href="{{ route('admin.games') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 14l7-7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 3h6v6" />
+                </svg>
+                <span class="font-medium">Games</span>
+            </a>
+
+            <a href="{{ route('admin.storybooks') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+                </svg>
+                <span class="font-medium">Story books</span>
             </a>
         </div>
 
