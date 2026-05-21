@@ -53,9 +53,11 @@ class UserResource extends Resource
 
             Forms\Components\TextInput::make('password')
                 ->password()
+                ->required(fn (string $context) => $context === 'create') // Only required when creating
                 ->nullable()
                 ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
-                ->dehydrated(fn ($state) => filled($state))
+                // FIXED: Changed fn ($state) to fn () because Fv2 doesn't pass $state here
+                ->dehydrated(fn () => filled($this->getState())) 
                 ->helperText('Leave blank to keep current password'),
         ]);
     }
@@ -77,7 +79,8 @@ class UserResource extends Resource
 
                 Tables\Columns\TextColumn::make('role')
                     ->formatStateUsing(fn ($state) => ucfirst($state))
-                    ->color(fn (string $state) => match ($state) {
+                    // FIXED: Changed (string $state) to ($record) because Fv2 passes the Eloquent record to color()
+                    ->color(fn ($record) => match ($record->role) {
                         'admin' => 'danger',
                         'counsellor' => 'warning',
                         'user' => 'success',

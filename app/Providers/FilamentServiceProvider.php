@@ -25,13 +25,10 @@ class FilamentServiceProvider extends ServiceProvider
 
             // Register sidebar navigation items dynamically
             Filament::registerNavigationItems([
-                NavigationItem::make('Dashboard')
-                    ->url(route('filament.pages.dashboard'))
-                    ->icon('heroicon-o-home'),
-
                 NavigationItem::make('Settings')
                     ->url(route('filament.pages.settings')) // create this page if it doesn't exist
                     ->icon('heroicon-o-cog'),
+
 
                 NavigationItem::make('Logout')
                     ->action(function () {

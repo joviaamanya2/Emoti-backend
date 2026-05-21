@@ -1,8 +1,6 @@
-# TODO
-
-- [x] Reorganize admin sidebar items: place User management first, then remaining categories.
-
-- [ ] Professionalize/categorize sidebar labels (keep existing structure and routes).
-- [ ] Fix any new errors introduced by sidebar changes (route names, missing icons, layout issues).
-- [ ] Ensure Filament navigation grouping matches “User management” priority where applicable.
+- [ ] Locate where `App\Models\Appointments` is referenced
+- [ ] Fix the import/model mismatch by switching to `App\Models\Appointment` (or renaming the model class/file)
+- [ ] Update Filament resource to use the correct model class
+- [ ] Run `php artisan optimize:clear` and `composer dump-autoload` (if needed)
+- [ ] Verify app builds / Filament loads without the class-not-found error
 

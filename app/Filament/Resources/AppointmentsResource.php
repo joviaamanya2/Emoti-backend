@@ -2,17 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AppointmentResource\Pages;
-use App\Models\Appointments;
+use App\Filament\Resources\AppointmentsResource\Pages;
+use App\Models\Appointment;
+
+
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 
-class AppointmentResource extends Resource
+
+class AppointmentsResource extends Resource
 {
     protected static ?string $model = Appointment::class;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 

@@ -13,7 +13,10 @@ class FeedbackResource extends Resource
 {
     protected static ?string $model = Feedback::class;
 
+    protected static ?string $navigationGroup = 'User Content';
+
     // protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
+
 
     public static function form(Form $form): Form
     {

@@ -16,8 +16,8 @@ class Counselor extends Model
         'name',
         'email',
         'phone',
-        'specialty',
-        'availability',
+        'specification',
+        'address',
         'status'
     ];
 }

@@ -19,6 +19,9 @@ class JournalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'User Content';
+
+
     public static function form(Form $form): Form
     {
         return $form

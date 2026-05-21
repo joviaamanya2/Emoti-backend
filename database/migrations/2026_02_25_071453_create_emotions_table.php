@@ -8,12 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('emotions', function (Blueprint $table) {
+        Schema::create('moods', function (Blueprint $table) {
             $table->id();
-            $table->string('mood'); // e.g., "happy", "sad"
-            $table->text('description')->nullable(); // optional description
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('mood'); // Great, Stressed, etc.
+            $table->string('emoji'); // 😊, 😟, etc.
+            $table->dateTime('mood_timestamp'); // Time selected by user
             $table->timestamps();
-        });
+      });
     }
 
     public function down()

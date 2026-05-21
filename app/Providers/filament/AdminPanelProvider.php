@@ -16,7 +16,6 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('3rem')
             ->favicon(asset('images/emoti-favicon.png'))
             
-            // Explicitly registered resources in your desired order
             ->resources([
                 // Dashboard
 
@@ -37,9 +36,11 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Resources\RecommendationResource::class,
                 \App\Filament\Resources\CounselorResource::class,
                 \App\Filament\Resources\TestimonialResource::class,
+
+                // COUNSELOR SESSIONS
+                \App\Filament\Resources\CounselorSessionResource::class,
             ])
             
-            // Sidebar group ordering/names
             ->navigationGroups([
                 'Dashboard',
                 'User Management',
@@ -47,10 +48,9 @@ class AdminPanelProvider extends PanelProvider
                 'Content library',
                 'EMOTI MANAGEMENT',
                 'COUNSELING',
-                'USER CONTENT',
+                'COUNSELOR SESSIONS',
             ])
             
-            // Your custom green theme CSS for Filament v2
             ->renderHook(
                 'styles.before',
                 fn (): string => '<style>

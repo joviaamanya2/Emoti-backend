@@ -9,9 +9,7 @@ class Menu
     public static function get(): array
     {
         return [
-            NavigationItem::make('Dashboard')
-                ->url(route('filament.pages.dashboard'))
-                ->icon('heroicon-o-home'),
+
 
             NavigationItem::make('Testimonials')
                 ->url(route('filament.pages.dashboard'))
