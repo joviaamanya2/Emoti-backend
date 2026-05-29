@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Session extends Model
+class CounselorSession extends Model
 {
     protected $fillable = [
         'user_id', 'counselor_id', 'scheduled_at', 'status', 'admin_notes', 'session_screenshot'

@@ -21,6 +21,11 @@ class JournalResource extends Resource
 
     protected static ?string $navigationGroup = 'User Content';
 
+    // Disable creation completely
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -58,7 +63,6 @@ class JournalResource extends Resource
     {
         return [
             'index' => Pages\ListJournals::route('/'),
-            'create' => Pages\CreateJournal::route('/create'),
             'edit' => Pages\EditJournal::route('/{record}/edit'),
         ];
     }    

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Emotion extends Model
 {
     use HasFactory;
+    protected $table = 'moods';
 
     // Updated fillable to include 'mood' and 'description'
     protected $fillable = [
@@ -26,6 +27,6 @@ class Emotion extends Model
 
     public function recommendations()
     {
-        return $this->hasMany(Recommendation::class, 'emotion_id');
+        return $this->hasMany(Recommendation::class, 'mood_id');
     }
 }

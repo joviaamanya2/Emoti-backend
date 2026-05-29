@@ -1,11 +1,8 @@
 <?php
 
-// app/Filament/Resources/StorybookResource.php
-
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StoryBooksResource\Pages;
-
+use App\Filament\Resources\StorybooksResource\Pages; // FIXED: Was StoryBooksResource
 use App\Models\Storybook;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -18,11 +15,8 @@ class StorybooksResource extends Resource
     protected static ?string $model = Storybook::class;
     
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    
     protected static ?string $navigationLabel = 'Storybooks';
-    
     protected static ?int $navigationSort = 20;
-    
     protected static ?string $navigationGroup = 'CONTENT LIBRARY';
     
     public static function form(Form $form): Form
@@ -35,6 +29,11 @@ class StorybooksResource extends Resource
                     
                 Forms\Components\TextInput::make('author')
                     ->maxLength(255),
+
+                // ADDED: Upload for the cover image displayed in your table
+                Forms\Components\SpatieMediaLibraryFileUpload::make('cover_image')
+                    ->collection('storybook-covers')
+                    ->image(),
                     
                 Forms\Components\Select::make('category')
                     ->options([
@@ -80,58 +79,63 @@ class StorybooksResource extends Resource
             ]);
     }
     
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_image')
-                    ->collection('storybook-covers')
-                    ->circular(),
-                    
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
-                    
-                Tables\Columns\TextColumn::make('author')
-                    ->sortable(),
-                    
-                Tables\Columns\BadgeColumn::make('category')
-                    ->formatStateUsing(fn (string $state): string => 
-                        str_replace('_', ' ', ucfirst($state))
-                    ),
-                    
-                Tables\Columns\BadgeColumn::make('age_group')
-                    ->colors([
-                        'pink' => '4-7',
-                        'purple' => '8-12',
-                        'indigo' => '13-17',
-                        'blue' => '18+',
-                    ]),
-                    
-                Tables\Columns\IconColumn::make('is_featured')->boolean(),
-                Tables\Columns\IconColumn::make('is_active')->boolean(),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('category'),
-                Tables\Filters\SelectFilter::make('age_group'),
-                Tables\Filters\TernaryFilter::make('is_featured'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
-    }
-    
+        public static function table(Table $table): Table
+        {
+            return $table
+                ->columns([
+                    Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_image')
+                        ->collection('storybook-covers')
+                        ->circular(),
+                        
+                    Tables\Columns\TextColumn::make('title')
+                        ->searchable()
+                        ->sortable(),
+                        
+                    Tables\Columns\TextColumn::make('author')
+                        ->sortable(),
+                        
+                    // FIXED: Removed "string" type hint from $state
+                    Tables\Columns\TextColumn::make('category')
+                        
+                        ->formatStateUsing(fn ($state): string => $state 
+                            ? str_replace('_', ' ', ucfirst($state)) 
+                            : 'N/A'
+                        ),
+                        
+                    // FIXED: Removed "string" type hint from $state
+                    Tables\Columns\TextColumn::make('age_group')
+                        
+                        ->color(fn ($state): string => match ($state) {
+                            '4-7' => 'pink',
+                            '8-12' => 'purple',
+                            '13-17' => 'indigo',
+                            '18+' => 'blue',
+                            default => 'gray', // This safely catches null values now
+                        }),
+                        
+                    Tables\Columns\IconColumn::make('is_featured')->boolean(),
+                    Tables\Columns\IconColumn::make('is_active')->boolean(),
+                ])
+                ->filters([
+                    Tables\Filters\SelectFilter::make('category'),
+                    Tables\Filters\SelectFilter::make('age_group'),
+                    Tables\Filters\TernaryFilter::make('is_featured'),
+                ])
+                ->actions([
+                    Tables\Actions\EditAction::make(),
+                ])
+                ->bulkActions([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]);
+        }
+        
     public static function getPages(): array
     {
         return [
-            // These page class names must match the actual Pages namespace.
-            // If your Pages don't exist, Filament will throw a fatal error during boot.
-'index' => Pages\ListStoryBooks::route('/'),
-            'create' => Pages\CreateStoryBooks::route('/create'),
-            'edit' => Pages\EditStoryBooks::route('/{record}/edit'),
+            // FIXED: Matched the casing exactly to the class name (Storybooks, not StoryBooks)
+            'index' => Pages\ListStorybooks::route('/'),
+            'create' => Pages\CreateStorybooks::route('/create'),
+            'edit' => Pages\EditStorybooks::route('/{record}/edit'),
         ];
     }
 }

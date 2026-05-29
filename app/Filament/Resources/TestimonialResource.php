@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TestimonialResource\Pages;
-use App\Models\Testimonial;
+use App\Models\UserTestimonial;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,14 +12,19 @@ use Filament\Tables;
 
 class TestimonialResource extends Resource
 {
-    // protected static ?string $model = Testimonial::class;
-    protected static ?string $model = \App\Models\Testimonial::class;
+    protected static ?string $model = UserTestimonial::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-chat';
 
     protected static ?string $navigationGroup = 'User Content';
 
-    protected static ?string $navigationLabel = 'Testimonials';
+    protected static ?string $navigationLabel = 'User Testimonials';
+
+    // Disable creation completely
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -29,10 +34,10 @@ class TestimonialResource extends Resource
                     ->relationship('user', 'name')
                     ->required(),
 
-                Forms\Components\Textarea::make('message')
+                Forms\Components\Textarea::make('description')  // ← Changed from 'message'
                     ->required(),
 
-                Forms\Components\Toggle::make('approved')
+                Forms\Components\Toggle::make('is_approved')    // ← Changed from 'approved'
                     ->label('Approved'),
             ]);
     }
@@ -44,10 +49,11 @@ class TestimonialResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('User'),
 
-                Tables\Columns\TextColumn::make('message')
+                Tables\Columns\TextColumn::make('description')   // ← Changed from 'message'
                     ->limit(50),
 
-                Tables\Columns\BooleanColumn::make('approved'),
+                Tables\Columns\IconColumn::make('is_approved')   // ← Changed from BooleanColumn
+                    ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
@@ -58,11 +64,10 @@ class TestimonialResource extends Resource
             ]);
     }
 
-    public static function getPages(): array
+    public static function getPages(): array  // ← FIXED: Capital 'P'
     {
         return [
             'index' => Pages\ListTestimonials::route('/'),
-            'create' => Pages\CreateTestimonial::route('/create'),
             'edit' => Pages\EditTestimonial::route('/{record}/edit'),
         ];
     }

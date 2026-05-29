@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 
 // Controllers
@@ -11,76 +9,33 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmotionController;
 use App\Http\Controllers\Api\RecommendationController;
-use App\Http\Controllers\Api\SessionController;
+use App\Http\Controllers\Api\CounselorSessionController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\JournalController;
 use App\Http\Controllers\Api\SessionRatingController;
 use App\Http\Controllers\Api\TestimonialController;
-use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\StorybookController;
 use App\Http\Controllers\AppointmentController;
 
+
 /*
 |--------------------------------------------------------------------------
-| AUTH ROUTES (PUBLIC)
+| PUBLIC ROUTES (NO AUTH REQUIRED)
 |--------------------------------------------------------------------------
 */
 
 Route::prefix('auth')->group(function () {
-
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-
-    // Forgot Password
-    Route::post('/forgot-password', function (Request $request) {
-
-        $request->validate([
-            'email' => 'required|email'
-        ]);
-
-        $status = Password::sendResetLink($request->only('email'));
-
-        return $status === Password::RESET_LINK_SENT
-            ? response()->json([
-                'message' => __($status),
-                'statusCode' => 200
-            ])
-            : response()->json([
-                'message' => __($status),
-                'statusCode' => 400
-            ], 400);
-    });
-
-    // Reset Password
-    Route::post('/reset-password', function (Request $request) {
-
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
-            }
-        );
-
-        return $status === Password::PASSWORD_RESET
-            ? response()->json([
-                'message' => 'Password reset successful',
-                'statusCode' => 200
-            ])
-            : response()->json([
-                'message' => 'Password reset failed',
-                'statusCode' => 400
-            ], 400);
-    });
-
+    
+    // Password Reset with 6-digit OTP
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 });
+
+// Public testimonials
+Route::get('/testimonials', [TestimonialController::class, 'feedback']);
 
 
 /*
@@ -91,167 +46,84 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // USER AUTH
+    // User Auth
     Route::get('/user', [AuthController::class, 'profile']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']); // Fixed path to match Flutter
 
-    /*
-    |--------------------------------------------------------------------------
-    | EMAIL VERIFICATION
-    |--------------------------------------------------------------------------
-    */
-
+    // Email Verification
     Route::post('/email/verification-notification', function (Request $request) {
-
         $request->user()->sendEmailVerificationNotification();
-
-        return response()->json([
-            'message' => 'Verification email sent.'
-        ]);
-
+        return response()->json(['message' => 'Verification email sent.']);
     });
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-
         $request->fulfill();
-
-        return response()->json([
-            'message' => 'Email verified successfully.'
-        ]);
-
+        return response()->json(['message' => 'Email verified successfully.']);
     })->name('verification.verify');
+    
 
+    // Inside your auth:sanctum middleware group:
+    Route::get('/appointments/user', [AppointmentController::class, 'userAppointments']);
+    Route::get('/appointments/counselor', [AppointmentController::class, 'counselorAppointments']);
+    Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy']);
 
-    /*
-    |--------------------------------------------------------------------------
-    | OTP PASSWORD RESET
-    |--------------------------------------------------------------------------
-    */
-
-    Route::post('/send-otp', [ForgotPasswordController::class, 'sendOtp']);
-    Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp']);
-    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | USERS
-    |--------------------------------------------------------------------------
-    */
-
+    // Users
     Route::prefix('users')->group(function () {
-
         Route::get('/', [UserController::class, 'index']);
         Route::get('/profile', [UserController::class, 'profile']);
         Route::put('/profile', [UserController::class, 'update']);
         Route::delete('/{id}', [UserController::class, 'destroy']);
-
     });
 
+    // Change Password (Outside 'users' prefix so it matches /user/password exactly)
+    Route::put('/user/password', [UserController::class, 'changePassword']);
 
-    /*
-    |--------------------------------------------------------------------------
-    | EMOTIONS
-    |--------------------------------------------------------------------------
-    */
-
+    // Emotions
     Route::prefix('emotions')->group(function () {
-
         Route::get('/', [EmotionController::class, 'index']);
         Route::post('/', [EmotionController::class, 'store']);
-
     });
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | RECOMMENDATIONS
-    |--------------------------------------------------------------------------
-    */
-
+    // Recommendations
     Route::prefix('recommendations')->group(function () {
-
         Route::get('/{emotion_id}', [RecommendationController::class, 'getByEmotion']);
         Route::post('/', [RecommendationController::class, 'store']);
-
     });
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | SESSIONS
-    |--------------------------------------------------------------------------
-    */
-
+    // Sessions
     Route::prefix('sessions')->group(function () {
-
-        Route::post('/', [SessionController::class, 'store']);
-        Route::get('/my-sessions', [SessionController::class, 'userSessions']);
-        Route::get('/counselor-sessions', [SessionController::class, 'counselorSessions']);
-
+        Route::post('/', [CounselorSessionController::class, 'store']);
+        Route::get('/my-sessions', [CounselorSessionController::class, 'userSessions']);
+        Route::get('/counselor-sessions', [CounselorSessionController::class, 'counselorSessions']);
     });
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | SESSION RATINGS
-    |--------------------------------------------------------------------------
-    */
-
+    // Session Ratings
     Route::get('/session-ratings', [SessionRatingController::class, 'index']);
     Route::post('/session-ratings', [SessionRatingController::class, 'store']);
     Route::get('/session-ratings/stats', [SessionRatingController::class, 'stats']);
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | TESTIMONIALS
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/testimonials', [TestimonialController::class, 'feedback']);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | FEEDBACK
-    |--------------------------------------------------------------------------
-    */
-
+    // Testimonials & Feedback
+    Route::get('/feedback', [TestimonialController::class, 'feedback']);
     Route::prefix('feedback')->group(function () {
-
         Route::post('/', [FeedbackController::class, 'store']);
         Route::get('/', [FeedbackController::class, 'index']);
-
     });
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | JOURNALS
-    |--------------------------------------------------------------------------
-    */
-
+    // Journals
     Route::get('/journals', [JournalController::class, 'index']);
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORY BOOKS
-    |--------------------------------------------------------------------------
-    */
-
+    // Storybooks
     Route::get('/stories', [StorybookController::class, 'index']);
     Route::get('/stories/{id}', [StorybookController::class, 'show']);
     Route::get('/stories/search', [StorybookController::class, 'search']);
     Route::get('/stories/categories', [StorybookController::class, 'categories']);
 
-    
-
-Route::get('/appointments', [AppointmentController::class, 'index']);
-Route::post('/appointments', [AppointmentController::class, 'store']);
-Route::get('/appointments/{id}', [AppointmentController::class, 'show']);
-Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
-Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy']);
-
+    // Appointments
+    Route::get('/appointments', [AppointmentController::class, 'index']);
+    Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::get('/appointments/{id}', [AppointmentController::class, 'show']);
+    Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy']);
 });

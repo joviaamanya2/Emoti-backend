@@ -14,9 +14,15 @@ class FeedbackResource extends Resource
     protected static ?string $model = Feedback::class;
 
     protected static ?string $navigationGroup = 'User Content';
+    
 
     // protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
 
+    // Disable creation completely
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -53,7 +59,6 @@ class FeedbackResource extends Resource
     {
         return [
             'index' => Pages\ListFeedback::route('/'),
-            'create' => Pages\CreateFeedback::route('/create'),
             'edit' => Pages\EditFeedback::route('/{record}/edit'),
         ];
     }

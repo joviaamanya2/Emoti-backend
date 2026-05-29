@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Resources\StoryBooksResource\Pages;
+namespace App\Filament\Resources\StorybooksResource\Pages;
 
-use App\Filament\Resources\StoryBooksResource;
+use App\Filament\Resources\StorybooksResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateStoryBooks extends CreateRecord
+class CreateStorybooks extends CreateRecord
 {
-    protected static string $resource = StoryBooksResource::class;
+    protected static string $resource = StorybooksResource::class;
 }

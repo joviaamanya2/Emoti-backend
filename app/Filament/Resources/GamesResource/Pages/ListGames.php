@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SessionResource\Pages;
+namespace App\Filament\Resources\GamesResource\Pages;
 
-use App\Filament\Resources\SessionResource;
+use App\Filament\Resources\GamesResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListSessions extends ListRecords
+class ListGames extends ListRecords
 {
-    protected static string $resource = SessionResource::class;
+    protected static string $resource = GamesResource::class;
 
     protected function getActions(): array
     {

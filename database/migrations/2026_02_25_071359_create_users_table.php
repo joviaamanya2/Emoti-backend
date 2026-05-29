@@ -2,83 +2,32 @@
 
 namespace App\Models;
 
-use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class User extends Authenticatable implements FilamentUser
+return new class extends Migration
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    protected $fillable = [
-        'name',
-        'email',
-        'contact',
-        'password',
-        'role',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Filament access
-     */
-    public function canAccessFilament(): bool
+    public function up()
     {
-        return true;
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('password');
+            $table->string('role')->default('user');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
-    // Relationships
-
-    public function emotions()
+    public function down()
     {
-        return $this->hasMany(Emotion::class);
+        Schema::dropIfExists('users');
     }
-
-    public function recommendations()
-    {
-        return $this->hasMany(Recommendation::class);
-    }
-
-    public function sessions()
-    {
-        return $this->hasMany(Session::class, 'user_id');
-    }
-
-    public function counselorSessions()
-    {
-        return $this->hasMany(Session::class, 'counselor_id');
-    }
-
-    public function feedbacks()
-    {
-        return $this->hasMany(Feedback::class);
-    }
-
-    // Role helpers
-
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
-
-    public function isCounselor()
-    {
-        return $this->role === 'counselor';
-    }
-
-    public function isUser()
+};
     {
         return $this->role === 'user';
     }
-}

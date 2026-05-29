@@ -73,4 +73,23 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->role === 'user';
     }
+    // ✅ Override to send 6-digit code instead of token
+    public function sendPasswordResetNotification($token)
+    {
+        // Generate a 6-digit code
+        $code = rand(100000, 999999);
+
+        // Store the code in password_reset_tokens table
+        \DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $this->email],
+            [
+                'token' => $code,
+                'created_at' => now(),
+            ]
+        );
+
+        // Send the code via email
+        $this->notify(new \App\Notifications\SendOtpNotification($code));
+    }
+     
 }

@@ -8,10 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
+        if (Schema::hasTable('feedbacks')) {
+            return;
+        }
+
         Schema::create('feedbacks', function (Blueprint $table) {
+
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // user giving feedback
-            $table->foreignId('session_id')->constrained()->onDelete('cascade'); // related session
+            $table->foreignId('session_id')->constrained('counselor_sessions')->onDelete('cascade'); // related counselor session
+
             $table->text('comment');
             $table->tinyInteger('rating')->nullable(); // 1–5 rating
             $table->timestamps();

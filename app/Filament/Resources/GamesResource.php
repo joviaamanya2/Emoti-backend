@@ -4,7 +4,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GameResource\Pages;
+use App\Filament\Resources\GamesResource\Pages;
 use App\Models\Game;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -161,8 +161,8 @@ class GamesResource extends Resource
     {
         return [
             'index' => Pages\ListGames::route('/'),
-            'create' => Pages\CreateGame::route('/create'),
-            'edit' => Pages\EditGame::route('/{record}/edit'),
+            'create' => Pages\CreateGames::route('/create'),
+            'edit' => Pages\EditGames::route('/{record}/edit'),
         ];
     }
 }

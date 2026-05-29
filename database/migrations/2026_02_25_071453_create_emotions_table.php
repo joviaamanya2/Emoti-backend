@@ -13,13 +13,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('mood'); // Great, Stressed, etc.
             $table->string('emoji'); // 😊, 😟, etc.
-            $table->dateTime('mood_timestamp'); // Time selected by user
+            $table->dateTime('mood_timestamp');
             $table->timestamps();
-      });
+        });
     }
 
     public function down()
     {
-        Schema::dropIfExists('emotions');
+        Schema::dropIfExists('moods');
     }
 };

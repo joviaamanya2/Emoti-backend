@@ -19,6 +19,10 @@ class Menu
                 ->url(route('filament.pages.dashboard'))
                 ->icon('heroicon-o-book-open'),
 
+            NavigationItem::make('Counselor Sessions')
+                ->url(route('filament.admin.resources.counselor-sessions.index'))
+                ->icon('heroicon-o-calendar-days'),
+
             NavigationItem::make('Settings')
                 ->url(route('filament.pages.settings'))
                 ->icon('heroicon-o-cog'),

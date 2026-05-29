@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SessionResource\Pages;
+namespace App\Filament\Resources\CounselorSessionResource\Pages;
 
-use App\Filament\Resources\SessionResource;
+use App\Filament\Resources\CounselorSessionResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSession extends EditRecord
 {
-    protected static string $resource = SessionResource::class;
+    protected static string $resource = CounselorSessionResource::class;
 
     protected function getActions(): array
     {

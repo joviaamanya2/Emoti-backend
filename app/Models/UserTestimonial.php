@@ -21,4 +21,10 @@ class UserTestimonial extends Model
         'is_approved',
         'helpful_count'
     ];
+
+    // ← ADD THIS RELATIONSHIP
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

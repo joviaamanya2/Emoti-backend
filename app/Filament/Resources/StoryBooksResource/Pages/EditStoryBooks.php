@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\StoryBooksResource\Pages;
+namespace App\Filament\Resources\StorybooksResource\Pages;
 
-use App\Filament\Resources\StoryBooksResource;
+use App\Filament\Resources\StorybooksResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditStoryBooks extends EditRecord
+class EditStorybooks extends EditRecord
 {
-    protected static string $resource = StoryBooksResource::class;
+    protected static string $resource = StorybooksResource::class;
 
     protected function getActions(): array
     {

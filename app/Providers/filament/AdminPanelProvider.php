@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Resources\EmotionResource::class,
                 \App\Filament\Resources\RecommendationResource::class,
                 \App\Filament\Resources\CounselorResource::class,
+                \App\Filament\Resources\CounselorAssignmentResource::class,
                 \App\Filament\Resources\TestimonialResource::class,
 
                 // COUNSELOR SESSIONS

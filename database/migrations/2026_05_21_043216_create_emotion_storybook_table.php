@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
+    {    if (Schema::hasTable('emotion_storybook')) {
+            return;
+        }
         Schema::create('emotion_storybook', function (Blueprint $table) {
             $table->id();
 

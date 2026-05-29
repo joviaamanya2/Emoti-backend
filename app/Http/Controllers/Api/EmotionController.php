@@ -15,7 +15,7 @@ class EmotionController extends Controller
             'mood' => 'required|string'
         ]);
 
-        $emotion = Emotion::create([
+        $emotion = Mood::create([
             'user_id' => auth()->id(),
             'mood' => $request->mood
         ]);
@@ -27,7 +27,7 @@ class EmotionController extends Controller
     public function index()
     {
         return response()->json(
-            Emotion::where('user_id', auth()->id())->latest()->get()
+            Mood::where('user_id', auth()->id())->latest()->get()
         );
     }
 }
