@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\CounselorSessionController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\JournalController;
 use App\Http\Controllers\Api\SessionRatingController;
-use App\Http\Controllers\Api\TestimonialController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\StorybookController;
 use App\Http\Controllers\AppointmentController;
 
@@ -38,6 +38,7 @@ Route::prefix('auth')->group(function () {
 Route::get('/testimonials', [TestimonialController::class, 'feedback']);
 
 
+
 /*
 |--------------------------------------------------------------------------
 | AUTHENTICATED ROUTES (SANCTUM)
@@ -48,7 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // User Auth
     Route::get('/user', [AuthController::class, 'profile']);
-    Route::post('/auth/logout', [AuthController::class, 'logout']); // Fixed path to match Flutter
+    Route::post('/auth/logout', [AuthController::class, 'logout']); 
+    // routes/api.php
+
+// Add these inside your auth middleware group:
+    Route::get('/testimonials', [TestimonialController::class, 'feedback']);
+    Route::post('/testimonials', [TestimonialController::class, 'store']);// Fixed path to match Flutter
 
     // Email Verification
     Route::post('/email/verification-notification', function (Request $request) {
@@ -85,6 +91,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [EmotionController::class, 'index']);
         Route::post('/', [EmotionController::class, 'store']);
     });
+
+    // Moods (alias for Flutter compat)
+    Route::post('/moods', [EmotionController::class, 'store']);
+    Route::get('/moods', [EmotionController::class, 'index']);
 
     // Recommendations
     Route::prefix('recommendations')->group(function () {

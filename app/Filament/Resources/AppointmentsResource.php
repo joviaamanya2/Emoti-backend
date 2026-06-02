@@ -7,7 +7,7 @@ use App\Models\Appointment;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Resources\Table as ResourceTable;
+use Filament\Resources\Table;
 use Filament\Tables;
 
 
@@ -26,7 +26,7 @@ class AppointmentsResource extends Resource
         return false;
     }
 
-    public static function table(ResourceTable $table): ResourceTable
+    public static function table(Table $table): Table
 
     {
         return $table

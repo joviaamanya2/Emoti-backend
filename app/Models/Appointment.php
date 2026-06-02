@@ -11,7 +11,8 @@ class Appointment extends Model
         'user_id',
         'counselor_id',
         'patient_name',
-        'patient_phone',
+        'patient_phone',       // ✅ THIS WAS MISSING
+        'contact_number',
         'patient_email',
         'service',
         'address',
@@ -28,13 +29,11 @@ class Appointment extends Model
         'updated_at' => 'datetime',
     ];
 
-    // ✅ Fix for 422: Cast attributes properly
     protected function setCounselorIdAttribute($value)
     {
         $this->attributes['counselor_id'] = $value ? (int) $value : null;
     }
 
-    // ✅ Fix for 500: Return user's name when accessed
     public function getPatientNameAttribute($value)
     {
         if (!$value && $this->user) {
@@ -58,17 +57,26 @@ class Appointment extends Model
         parent::booted();
 
         static::creating(function ($appointment) {
-            // Auto-generate patient name from user if not provided
             if (empty($appointment->patient_name) && $appointment->user_id) {
                 $appointment->patient_name = $appointment->user->name ?? 'Unknown';
             }
-            // Auto-generate phone from user if not provided
-            if (empty($appointment->patient_phone) && $appointment->user) {
+
+            // ✅ Auto-fill contact_number from user if still empty
+            if (empty($appointment->contact_number) && $appointment->user_id) {
+                $appointment->contact_number = $appointment->user->contact ?? '';
+            }
+
+            if (empty($appointment->patient_phone) && $appointment->user_id) {
                 $appointment->patient_phone = $appointment->user->contact ?? '';
             }
-            // Auto-generate email from user if not provided
-            if (empty($appointment->patient_email) && $appointment->user) {
+
+            if (empty($appointment->patient_email) && $appointment->user_id) {
                 $appointment->patient_email = $appointment->user->email ?? '';
+            }
+
+            // ✅ Last resort: if contact_number still empty, copy from patient_phone
+            if (empty($appointment->contact_number) && !empty($appointment->patient_phone)) {
+                $appointment->contact_number = $appointment->patient_phone;
             }
         });
     }

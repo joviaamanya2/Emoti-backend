@@ -10,10 +10,12 @@ class Emotion extends Model
     use HasFactory;
     protected $table = 'moods';
 
-    // Updated fillable to include 'mood' and 'description'
+    // Updated fillable to include 'mood', 'description', 'emoji', 'mood_timestamp'
     protected $fillable = [
         'user_id',
         'mood',        // e.g., happy, sad, angry
+        'emoji',       // 😊, 😟, etc.
+        'mood_timestamp',
         'description', // optional description or notes
         'type',        // optional, if you want to keep it
         'intensity',   // optional numeric scale 1-10

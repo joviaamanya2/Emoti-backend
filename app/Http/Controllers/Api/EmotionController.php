@@ -12,22 +12,30 @@ class EmotionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mood' => 'required|string'
+            'mood' => 'required|string',
+            'emoji' => 'nullable|string',
         ]);
 
-        $emotion = Mood::create([
+        $emotion = Emotion::create([
             'user_id' => auth()->id(),
-            'mood' => $request->mood
+            'mood' => $request->mood,
+            'emoji' => $request->emoji ?? '',
+            'mood_timestamp' => now(),
         ]);
 
-        return response()->json($emotion, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $emotion
+        ], 201);
     }
 
     // Get logged-in user's emotions
     public function index()
     {
-        return response()->json(
-            Mood::where('user_id', auth()->id())->latest()->get()
-        );
+        $emotions = Emotion::where('user_id', auth()->id())->latest()->get();
+        return response()->json([
+            'success' => true,
+            'data' => $emotions
+        ]);
     }
 }

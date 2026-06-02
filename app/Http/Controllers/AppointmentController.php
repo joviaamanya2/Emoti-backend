@@ -59,32 +59,49 @@ class AppointmentController extends Controller
     // STORE APPOINTMENT
     // ==============================
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'counselor_id' => 'nullable|integer',
-            'patient_name' => 'nullable|string|max:255',
-            'patient_phone' => 'nullable|string|max:20',
-            'patient_email' => 'nullable|email|max:255',
-            'service' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'appointment_date' => 'required|date',
-            'appointment_time' => 'required',
-            'notes' => 'nullable|string',
-            'preferred_contact' => 'nullable|string|max:50',
-        ]);
+{
+    $validated = $request->validate([
+        'counselor_id'      => 'nullable|integer',
+        'patient_name'      => 'nullable|string|max:255',
+        'patient_phone'     => 'nullable|string|max:20',
+        'contact_number'    => 'nullable|string|max:20',
+        'patient_email'     => 'nullable|email|max:255',
+        'service'           => 'required|string|max:255',
+        'address'           => 'nullable|string',
+        'appointment_date'  => 'required|date',
+        'appointment_time'  => 'required|string|max:10',
+        'notes'             => 'nullable|string',
+        'preferred_contact' => 'nullable|string|max:50',
+    ]);
 
-        $validated['user_id'] = Auth::id();
-        $validated['status'] = 'pending';
-
-        $appointment = Appointment::create($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Appointment booked successfully',
-            'data' => $appointment,
-        ], 201);
+    // If counselor_id is 0, treat it as not assigned
+    if (
+        isset($validated['counselor_id']) &&
+        (int)$validated['counselor_id'] === 0
+    ) {
+        $validated['counselor_id'] = null;
     }
 
+    // Ensure both phone fields are populated
+    if (empty($validated['contact_number']) && !empty($validated['patient_phone'])) {
+        $validated['contact_number'] = $validated['patient_phone'];
+    }
+
+    if (empty($validated['patient_phone']) && !empty($validated['contact_number'])) {
+        $validated['patient_phone'] = $validated['contact_number'];
+    }
+
+    $validated['user_id'] = Auth::id();
+    $validated['status'] = 'pending';
+
+    $appointment = Appointment::create($validated);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Appointment booked successfully',
+        'data'    => $appointment,
+    ], 201);
+}
     // ==============================
     // SHOW SINGLE APPOINTMENT
     // ==============================
@@ -102,7 +119,7 @@ class AppointmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $appointment,
+            'data'    => $appointment,
         ], 200);
     }
 
@@ -121,7 +138,7 @@ class AppointmentController extends Controller
         }
 
         $request->validate([
-            'status' => 'required|string',
+            'status' => 'required|string|in:pending,confirmed,cancelled,completed',
         ]);
 
         $appointment->status = $request->status;
@@ -130,7 +147,7 @@ class AppointmentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Appointment updated successfully',
-            'data' => $appointment,
+            'data'    => $appointment,
         ], 200);
     }
 

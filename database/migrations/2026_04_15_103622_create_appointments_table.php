@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('counselor_id')->nullable();
             $table->string('patient_name');
-            $table->string('patient_phone');
+            $table->string('contact_number');
             $table->string('patient_email')->nullable();
             $table->string('service');
             $table->string('address')->nullable();
