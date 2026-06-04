@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "blade-ui-kit/blade-heroicons": "^1.6",
+        "blade-ui-kit/blade-heroicons": "^1.7",
         "filament/filament": "2.17",
         "filament/spatie-laravel-media-library-plugin": "2.17",
         "fruitcake/laravel-cors": "^2.0.5",

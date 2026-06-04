@@ -93,7 +93,7 @@ class AppointmentsResource extends Resource
                 // Dropdown action to change status
                 Tables\Actions\Action::make('change_status')
                     ->label('Change Status')
-                    ->icon('heroicon-o-arrow-path')
+                    ->icon('heroicon-o-pencil')
                     ->modalHeading('Update Appointment Status')
                     ->modalButton('Update')
                     ->form([

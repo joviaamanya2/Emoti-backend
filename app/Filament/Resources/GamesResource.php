@@ -25,7 +25,7 @@ class GamesResource extends Resource
     
     protected static ?int $navigationSort = 30;
     
-    protected static ?string $navigationGroup = 'CONTENT LIBRARY';
+    protected static ?string $navigationGroup = 'Content Library';
     
     public static function form(Form $form): Form
     {

@@ -12,7 +12,7 @@ class FilamentServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-      Filament::registerNavigationItems(Menu::get());
+        // 
     }
 
     public function boot(): void
@@ -23,19 +23,14 @@ class FilamentServiceProvider extends ServiceProvider
                 asset('css/filament.css'), // your green theme CSS
             ]);
 
-            // Register sidebar navigation items dynamically
-            Filament::registerNavigationItems([
-                NavigationItem::make('Settings')
-                    ->url(route('filament.pages.settings')) // create this page if it doesn't exist
-                    ->icon('heroicon-o-cog'),
-
-
-                NavigationItem::make('Logout')
-                    ->action(function () {
-                        auth()->logout();
-                        return redirect('/'); // redirect to your app homepage after logout
-                    })
-                    ->icon('heroicon-o-arrow-left-on-square'),
+            // Register navigation groups in explicit order
+            Filament::registerNavigationGroups([
+                'User Management',
+                'User Content',
+                'Content Library',
+                'Emoti Management',
+                'Counseling Management',
+                'Counseling',
             ]);
 
             // Register dashboard widgets

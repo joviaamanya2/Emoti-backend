@@ -36,6 +36,10 @@ Route::prefix('auth')->group(function () {
 
 // Public testimonials
 Route::get('/testimonials', [TestimonialController::class, 'feedback']);
+// ✅ MUST BE BEFORE the resource route
+Route::get('/testimonials/feedback', [TestimonialController::class, 'feedback']);
+
+Route::apiResource('testimonials', TestimonialController::class);
 
 
 
