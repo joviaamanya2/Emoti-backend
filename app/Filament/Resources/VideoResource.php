@@ -65,7 +65,7 @@ class VideoResource extends Resource
 
                 Forms\Components\Select::make('emotion_tags')
                     ->multiple()
-                    ->relationship('emotions', 'name')
+                    ->relationship('emotions', 'mood')
                     ->label('Related Emotions'),
 
                 Forms\Components\FileUpload::make('thumbnail')

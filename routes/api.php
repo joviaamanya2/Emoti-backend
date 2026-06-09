@@ -9,13 +9,14 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmotionController;
 use App\Http\Controllers\Api\RecommendationController;
-use App\Http\Controllers\Api\CounselorSessionController;
+use App\Http\Controllers\CounselorSessionController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\JournalController;
-use App\Http\Controllers\Api\SessionRatingController;
+use App\Http\Controllers\SessionRatingController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\StorybookController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\CounselorSessionLogController;
 
 
 /*
@@ -70,6 +71,11 @@ Route::middleware('auth:sanctum')->group(function () {
         $request->fulfill();
         return response()->json(['message' => 'Email verified successfully.']);
     })->name('verification.verify');
+    // 🔒 Counselor Session Logs
+    Route::prefix('counselor')->group(function () {
+        Route::post('/session-logs', [CounselorSessionLogController::class, 'store']);
+        Route::get('/session-logs', [CounselorSessionLogController::class, 'index']);
+    });
     
 
     // Inside your auth:sanctum middleware group:

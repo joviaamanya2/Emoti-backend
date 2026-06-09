@@ -57,7 +57,7 @@ class UserResource extends Resource
                 ->nullable()
                 ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
                 // FIXED: Changed fn ($state) to fn () because Fv2 doesn't pass $state here
-                ->dehydrated(fn () => filled($this->getState())) 
+                // ->dehydrated(fn () => filled(->getState())) 
                 ->helperText('Leave blank to keep current password'),
         ]);
     }

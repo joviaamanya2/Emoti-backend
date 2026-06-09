@@ -1,13 +1,13 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
+        "dev": "npx mix",
+        "development": "npx mix",
+        "watch": "npx mix watch",
+        "watch-poll": "npx mix watch -- --watch-options-poll=1000",
+        "hot": "npx mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "npx mix --production"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
@@ -19,6 +19,8 @@
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
         "tailwindcss": "^3.1.0",
-        "vite": "^8.0.14"
+        "vite": "^8.0.14",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^4.9.1"
     }
 }

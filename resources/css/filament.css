@@ -3,3 +3,114 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Emoti lighter green theme overrides for Filament */
+.filament-login-page {
+    background-image: radial-gradient(circle at top, #e6fffa, #ecfdf5 50%);
+    background-repeat: no-repeat;
+}
+
+.dark .filament-login-page {
+    background-image: radial-gradient(circle at top, #d9f99d, #bbf7d0 50%, #ecfdf5 100%);
+}
+
+.filament-login-page form:before {
+    background-image: linear-gradient(to right, #f0fdf4, #34d399);
+}
+
+.filament-sidebar-header,
+.filament-sidebar-header:before {
+    background-image: linear-gradient(to right, #86efac, #34d399) !important;
+}
+
+.filament-sidebar {
+    background-color: #115e59 !important;
+    background-image: linear-gradient(180deg, #16a34a 0%, #059669 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.filament-sidebar a,
+.filament-sidebar .filament-sidebar-item,
+.filament-sidebar .filament-sidebar-item a,
+.filament-sidebar .filament-sidebar-group-label {
+    color: #f8fafc !important;
+}
+
+.filament-sidebar .filament-sidebar-group-label {
+    font-weight: 900 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    margin-top: 1rem !important;
+    display: inline-block !important;
+}
+
+.filament-sidebar .filament-sidebar-item,
+.filament-sidebar .filament-sidebar-item a {
+    font-weight: 700 !important;
+}
+
+.filament-sidebar .filament-sidebar-item.active,
+.filament-sidebar .filament-sidebar-item:hover,
+.filament-sidebar .filament-sidebar-item a:hover {
+    background-color: rgba(52, 211, 153, 0.24) !important;
+    color: #ffffff !important;
+}
+
+.filament-button-primary,
+.filament-button-primary:hover,
+.filament-button-primary:focus {
+    background-color: #34d399 !important;
+    border-color: #34d399 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.filament-badge-primary,
+.filament-badge-success {
+    background-color: #4ade80 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.filament-card,
+.filament-page-header,
+.filament-topbar,
+.filament-table {
+    border-color: rgba(52, 211, 153, 0.16) !important;
+}
+
+.filament-page-header h1,
+.filament-page-header h2,
+.filament-page-header h3,
+.filament-card-header {
+    color: #0f766e !important;
+    font-weight: 700 !important;
+}
+
+.filament-card-header,
+.filament-page-header .filament-page-header-heading,
+.filament-card-header-title,
+.filament-card-header-description {
+    font-weight: 700 !important;
+}
+
+.filament-table th,
+.filament-table td {
+    font-weight: 600 !important;
+}
+
+.filament-breadcrumb,
+.filament-breadcrumb a,
+.filament-breadcrumb span {
+    font-weight: 600 !important;
+}
+
+.filament-metric-card-title,
+.filament-metric-card-subheading {
+    font-weight: 700 !important;
+}
+
+.filament-icon-button,
+.filament-button {
+    font-weight: 600 !important;
+}

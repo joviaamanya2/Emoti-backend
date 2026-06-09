@@ -28,7 +28,7 @@ class RecommendationResource extends Resource
                         Forms\Components\Tabs\Tab::make('General')
                             ->schema([
                                 Forms\Components\Select::make('mood_id')
-                                    ->relationship('emotion', 'mood') // Assumes you have an Emotion model with a 'name' field
+                                    ->relationship('mood', 'mood')
                                     ->searchable()
                                     ->preload()
                                     ->required()

@@ -6,10 +6,13 @@ use App\Filament\Resources\EmotionResource\Pages;
 use App\Filament\Resources\EmotionResource\RelationManagers;
 use App\Models\Emotion;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -26,7 +29,16 @@ class EmotionResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('mood')
+                    ->required()
+                    ->label('Mood'),
+
+                TextInput::make('emoji')
+                    ->label('Emoji'),
+
+                Textarea::make('description')
+                    ->label('Description')
+                    ->rows(3),
             ]);
     }
 
@@ -34,7 +46,11 @@ class EmotionResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')->label('ID')->sortable(),
+                TextColumn::make('mood')->label('Mood')->searchable()->sortable(),
+                TextColumn::make('emoji')->label('Emoji'),
+                TextColumn::make('description')->label('Description')->limit(50),
+                TextColumn::make('created_at')->label('Created')->dateTime(),
             ])
             ->filters([
                 //
@@ -58,7 +74,6 @@ class EmotionResource extends Resource
     {
         return [
             'index' => Pages\ListEmotions::route('/'),
-            'create' => Pages\CreateEmotion::route('/create'),
             'edit' => Pages\EditEmotion::route('/{record}/edit'),
         ];
     }    

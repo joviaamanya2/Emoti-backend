@@ -25,6 +25,12 @@ return [
             'provider' => 'users',
         ],
 
+        // Admin panel auth guard — separate from regular web login.
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
         // API (Sanctum token auth)
         'api' => [
             'driver' => 'sanctum',

@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix(config('filament.path', 'admin'))->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 

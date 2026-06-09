@@ -24,8 +24,8 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         // Do not interfere with Filament panel auth flow (login/redirect).
-        // Filament panel is served under /admin (see config/filament.php).
-        $isFilamentPanelRequest = $request->is('admin/*') || $request->is('admin');
+        $panelPath = trim(config('filament.path', 'admin'), '/');
+        $isFilamentPanelRequest = $request->is($panelPath.'/*') || $request->is($panelPath);
 
         if ($isFilamentPanelRequest) {
             // Let Laravel/Filament handle redirects normally.
@@ -49,7 +49,8 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         // Always return JSON for API requests
-        $isFilamentPanelRequest = $request->is('admin/*') || $request->is('admin');
+        $panelPath = trim(config('filament.path', 'admin'), '/');
+        $isFilamentPanelRequest = $request->is($panelPath.'/*') || $request->is($panelPath);
 
         if (!$isFilamentPanelRequest && ($request->expectsJson() || $request->is('api/*'))) {
 

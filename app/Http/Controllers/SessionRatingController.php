@@ -35,26 +35,26 @@ class SessionRatingController extends Controller
 
         return response()->json($ratings);
     }
-    public function getStats(Request $request)
-{
-    $session_type = $request->query('session_type');
+    public function stats(Request $request)
+    {
+        $session_type = $request->query('session_type');
 
-    if (!$session_type) {
+        if (!$session_type) {
+            return response()->json([
+                "success" => false,
+                "error" => "Missing session_type"
+            ]);
+        }
+
+        $stats = \App\Models\SessionRating::where('session_type', $session_type)
+            ->selectRaw('COUNT(*) as total, AVG(emoji_rating) as avg_emoji, AVG(star_rating) as avg_star')
+            ->first();
+
         return response()->json([
-            "success" => false,
-            "error" => "Missing session_type"
+            "success" => true,
+            "avg_emoji" => round((float) $stats->avg_emoji, 1),
+            "avg_star" => round((float) $stats->avg_star, 1),
+            "total" => (int) $stats->total
         ]);
     }
-
-    $stats = \App\Models\SessionRating::where('session_type', $session_type)
-        ->selectRaw('COUNT(*) as total, AVG(emoji_rating) as avg_emoji, AVG(star_rating) as avg_star')
-        ->first();
-
-    return response()->json([
-        "success" => true,
-        "avg_emoji" => round((float) $stats->avg_emoji, 1),
-        "avg_star" => round((float) $stats->avg_star, 1),
-        "total" => (int) $stats->total
-    ]);
-}
 }

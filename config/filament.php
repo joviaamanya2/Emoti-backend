@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', 'admin'),
+    'path' => env('FILAMENT_PATH', 'secure-panel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     */
 
     'auth' => [
-        'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
+        'guard' => env('FILAMENT_AUTH_GUARD', 'admin'),
         'pages' => [
             'login' => \Filament\Http\Livewire\Auth\Login::class,
         ],

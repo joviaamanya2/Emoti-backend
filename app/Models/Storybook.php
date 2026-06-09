@@ -34,9 +34,9 @@ class Storybook extends Model implements HasMedia
         'is_featured' => 'boolean', // Added
     ];
 
-    // Added: Required for your Select component ->relationship('emotions', 'name')
+    // Relationship to Emotion via pivot table 'emotion_storybook'
     public function emotions(): BelongsToMany
     {
-        return $this->belongsToMany(Emotion::class, 'storybook_emotion', 'storybook_id', 'emotion_id');
+        return $this->belongsToMany(Emotion::class, 'emotion_storybook', 'storybook_id', 'emotion_id');
     }
 }
