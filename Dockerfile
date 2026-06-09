@@ -1,72 +1,41 @@
-<<<<<<< HEAD
 FROM php:8.2-cli
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     zip \
     libzip-dev \
-    && docker-php-ext-install zip pdo pdo_mysql
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-WORKDIR /var/www
-
-COPY . .
-
-RUN composer install --no-dev --optimize-autoloader
-
-RUN chmod -R 775 storage bootstrap/cache
-
-EXPOSE 10000
-
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
-=======
-FROM php:8.2-fpm
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
+    && docker-php-ext-install \
     zip \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions including exif
-RUN docker-php-ext-install -j$(nproc) \
+    pdo \
     pdo_mysql \
     mbstring \
     exif \
-    pcntl \
-    bcmath \
-    gd \
-    opcache
+    bcmath
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+# Set working directory
+WORKDIR /var/www
 
-# Copy application files
+# Copy project files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --optimize-autoloader --no-scripts --no-interaction
-
-# Create storage directories
-RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Set permissions
-RUN chown -R www-data:www-data /app
+RUN chmod -R 775 storage bootstrap/cache
 
-EXPOSE 8000
+# Expose Render port
+EXPOSE 10000
 
-# Start PHP built-in server
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
-
->>>>>>> fa1e2241d192f868b4652bff98b5178cebf2f8c5
+# Start Laravel
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
