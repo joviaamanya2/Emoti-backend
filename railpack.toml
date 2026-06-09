@@ -1,0 +1,7 @@
+[build]
+cmd = "composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-req=ext-exif"
+
+[php]
+version = "8.2"
+extensions = ["exif", "pdo_mysql", "mbstring", "bcmath", "gd", "opcache"]
+
