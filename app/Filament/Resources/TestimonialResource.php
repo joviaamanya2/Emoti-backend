@@ -32,7 +32,7 @@ class TestimonialResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
-                    ->required(),
+                    ->nullable(),
 
                 Forms\Components\Textarea::make('description')  // ← Changed from 'message'
                     ->required(),
@@ -47,12 +47,16 @@ class TestimonialResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('User'),
+                    ->label('User')
+                    ->default('Anonymous'),
 
-                Tables\Columns\TextColumn::make('description')   // ← Changed from 'message'
+                Tables\Columns\TextColumn::make('description')
                     ->limit(50),
 
-                Tables\Columns\IconColumn::make('is_approved')   // ← Changed from BooleanColumn
+                Tables\Columns\TextColumn::make('user_name')
+                    ->label('Guest Name'),
+
+                Tables\Columns\IconColumn::make('is_approved')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')

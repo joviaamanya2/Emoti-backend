@@ -8,7 +8,7 @@ class UserTestimonial extends Model
 {
     protected $table = 'user_testimonials';
 
-    public $timestamps = false; // ← REVERT THIS TO FALSE
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id',
@@ -16,12 +16,14 @@ class UserTestimonial extends Model
         'session_type',
         'what_worked',
         'description',
-        'emoji',                    // Keep emoji here
+        'emoji',
         'star_rating',
         'mood_when_it_worked',
         'is_approved',
         'helpful_count',
         'display_name_type',
+        'created_at',
+        'updated_at',
     ];
 
     public function user()

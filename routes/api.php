@@ -37,10 +37,11 @@ Route::prefix('auth')->group(function () {
 
 // Public testimonials
 Route::get('/testimonials', [TestimonialController::class, 'feedback']);
-// ✅ MUST BE BEFORE the resource route
 Route::get('/testimonials/feedback', [TestimonialController::class, 'feedback']);
+Route::post('/testimonials', [TestimonialController::class, 'store']);
 
-Route::apiResource('testimonials', TestimonialController::class);
+// Optional resource routes can be added when controller methods exist
+// Route::apiResource('testimonials', TestimonialController::class);
 
 
 
@@ -58,8 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // routes/api.php
 
 // Add these inside your auth middleware group:
-    Route::get('/testimonials', [TestimonialController::class, 'feedback']);
-    Route::post('/testimonials', [TestimonialController::class, 'store']);// Fixed path to match Flutter
+
 
     // Email Verification
     Route::post('/email/verification-notification', function (Request $request) {

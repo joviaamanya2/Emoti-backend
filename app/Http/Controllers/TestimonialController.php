@@ -24,14 +24,11 @@ class TestimonialController extends Controller
             'display_name_type'   => 'nullable|string|max:50',
         ]);
 
-        // ✅ SAFE AUTH CHECK: Prevents 500 error if user is not logged in
         $user = $request->user();
-        $userId = $user ? $user->id : null;
-        $userName = $validated['user_name'] ?? ($user ? $user->name : 'Anonymous');
 
         $testimonial = UserTestimonial::create([
-            'user_id'             => $userId, // ✅ No crash                     
-            'user_name'           => $userName, 
+            'user_id'             => $user ? $user->id : null,  // ✅ Now allowed (nullable column)
+            'user_name'           => $validated['user_name'] ?? ($user ? $user->name : 'Anonymous'),
             'description'         => $validated['text'] ?? null,           
             'session_type'        => $validated['session_type'] ?? $validated['mood'],
             'mood_when_it_worked' => $validated['mood'],  
@@ -49,6 +46,7 @@ class TestimonialController extends Controller
             'data'    => $testimonial,
         ], 201);
     }
+
     /**
      * Fetch approved testimonials.
      */
@@ -70,7 +68,6 @@ class TestimonialController extends Controller
             $query->where('mood_when_it_worked', $mood);
         }
 
-        // ✅ CHANGED: Sort by created_at since your database DOES have timestamps!
         $testimonials = $query->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
@@ -82,35 +79,33 @@ class TestimonialController extends Controller
                 2 => "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
                 3 => "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80",
                 4 => "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80",
-                5 => "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80", // Fixed URL
+                5 => "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80",
             ];
             $avatar = $avatars[$avatarId] ?? $avatars[1];
 
-            // ✅ Calculate daysAgo dynamically since created_at works!
             $daysAgo = 0;
             if ($t->created_at) {
                 $daysAgo = Carbon::parse($t->created_at)->diffInDays(Carbon::now());
             }
 
-            // ✅ CRITICAL FIX: Returning EXACT keys Flutter needs so nothing is null
             return [
-                'id' => $t->id,
-                'user_name' => $t->user_name ?? 'Anonymous',
-                'avatar' => $avatar,
-                'mood_when_it_worked' => $t->mood_when_it_worked ?? 'General',
-                'mood' => $t->mood_when_it_worked ?? 'General', 
-                'emoji' => $t->emoji ?? '',
-                'session_type' => $t->session_type ?? 'General',
-                'description' => $t->description ?? '',
-                'content' => $t->description ?? '', 
-                'what_worked' => $t->what_worked ?? 'General',
-                'whatWorked' => $t->what_worked ?? 'General', 
-                'star_rating' => (int)($t->star_rating ?? 5),
-                'rating' => (int)($t->star_rating ?? 5), 
-                'helpful_count' => (int)($t->helpful_count ?? 0),
-                'helpfulCount' => (int)($t->helpful_count ?? 0), 
-                'display_name_type' => $t->display_name_type ?? 'anonymous',
-                'daysAgo' => (int)$daysAgo, 
+                'id'                 => $t->id,
+                'user_name'          => $t->user_name ?? 'Anonymous',
+                'avatar'             => $avatar,
+                'mood_when_it_worked'=> $t->mood_when_it_worked ?? 'General',
+                'mood'               => $t->mood_when_it_worked ?? 'General', 
+                'emoji'              => $t->emoji ?? '',
+                'session_type'       => $t->session_type ?? 'General',
+                'description'        => $t->description ?? '',
+                'content'            => $t->description ?? '', 
+                'what_worked'        => $t->what_worked ?? 'General',
+                'whatWorked'         => $t->what_worked ?? 'General', 
+                'star_rating'        => (int)($t->star_rating ?? 5),
+                'rating'             => (int)($t->star_rating ?? 5), 
+                'helpful_count'      => (int)($t->helpful_count ?? 0),
+                'helpfulCount'       => (int)($t->helpful_count ?? 0), 
+                'display_name_type'  => $t->display_name_type ?? 'anonymous',
+                'daysAgo'            => (int)$daysAgo, 
             ];
         });
 
