@@ -16,8 +16,7 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // user giving feedback
-            $table->foreignId('session_id')->constrained('counselor_sessions')->onDelete('cascade'); // related counselor session
-
+            
             $table->text('comment');
             $table->tinyInteger('rating')->nullable(); // 1–5 rating
             $table->timestamps();
