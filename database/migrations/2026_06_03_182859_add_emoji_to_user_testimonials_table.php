@@ -6,24 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('user_testimonials', function (Blueprint $table) {
-            // Add the emoji column after the description column
-            $table->string('emoji')->nullable()->after('description');
-        });
+        // 👉 Skip if the column already exists
+        if (!Schema::hasColumn('user_testimonials', 'emoji')) {
+            Schema::table('user_testimonials', function (Blueprint $table) {
+                $table->string('emoji')->nullable()->after('description');
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('user_testimonials', function (Blueprint $table) {
-            $table->dropColumn('emoji');
-        });
+        // 👉 Only drop if the column exists
+        if (Schema::hasColumn('user_testimonials', 'emoji')) {
+            Schema::table('user_testimonials', function (Blueprint $table) {
+                $table->dropColumn('emoji');
+            });
+        }
     }
 };

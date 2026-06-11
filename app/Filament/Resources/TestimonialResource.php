@@ -34,8 +34,6 @@ class TestimonialResource extends Resource
                     ->relationship('user', 'name')
                     ->nullable(),
 
-                Forms\Components\Textarea::make('description')  // ← Changed from 'message'
-                    ->required(),
 
                 Forms\Components\Toggle::make('is_approved')    // ← Changed from 'approved'
                     ->label('Approved'),
@@ -50,8 +48,7 @@ class TestimonialResource extends Resource
                     ->label('User')
                     ->default('Anonymous'),
 
-                Tables\Columns\TextColumn::make('description')
-                    ->limit(50),
+                
 
                 Tables\Columns\TextColumn::make('user_name')
                     ->label('Guest Name'),

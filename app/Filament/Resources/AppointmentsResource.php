@@ -36,7 +36,7 @@ class AppointmentsResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextColumn::make('reason')
                     ->searchable()
                     ->sortable(),
 

@@ -4,10 +4,10 @@
     </x-slot>
 
     <x-filament::card>
-        <form method="POST" action="{{ url('/') }}">
+        <form method="POST" action="{{ route('filament.auth.login') }}">
             @csrf
-            <x-filament::input placeholder="Email" type="email" name="email" />
-            <x-filament::input placeholder="Password" type="password" name="password" />
+            <x-filament::input placeholder="Email" type="email" name="email" required autofocus />
+            <x-filament::input placeholder="Password" type="password" name="password" required />
 
             <x-filament::button type="submit" class="mt-4">
                 Login

@@ -10,13 +10,14 @@ class AdminSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@emoti.com',
-            'phone' => '0700000000',
-            'bio' => 'System Administrator',
-            'password' => Hash::make('123456'),
-            'role' => 'admin',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@emoti.com'],
+            [
+                'name' => 'Super Admin',
+                'contact' => '0700000000',
+                'password' => Hash::make('123456'),
+                'role' => 'admin',
+            ]
+        );
     }
 }

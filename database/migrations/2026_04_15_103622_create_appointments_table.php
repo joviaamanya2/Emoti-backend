@@ -10,22 +10,29 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('counselor_id')->nullable();
+
+            // FIXED: must be foreignId, not string
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
+            $table->foreignId('counselor_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
             $table->string('patient_name');
             $table->string('contact_number');
             $table->string('patient_email')->nullable();
-            $table->string('service');
+            $table->string('reason')->nullable();
             $table->string('address')->nullable();
+
             $table->date('appointment_date');
-            $table->string('appointment_time', 15); // HH:MM format
-            $table->string('status')->default('pending'); // pending, confirmed, cancelled
+            $table->string('appointment_time', 15);
+
+            $table->string('status')->default('pending');
             $table->text('notes')->nullable();
             $table->string('preferred_contact')->default('Video Call');
-            $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->onDelete('cascade');
-            $table->foreign('counselor_id')->references('id')->nullable()->onDelete('set null');
+            $table->timestamps();
         });
     }
 

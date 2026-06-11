@@ -69,7 +69,10 @@ class AdminPanelProvider extends PanelProvider
                         background-image: linear-gradient(to right, #ecfdf5, #10b918) !important;
                     }
 
-                    .filament-sidebar-header,
+                    .filament-sidebar-header {
+                        background-color: #10b918 !important;
+                    }
+
                     .filament-sidebar-header:before {
                         background-image: linear-gradient(to right, #10b918, #059669) !important;
                     }

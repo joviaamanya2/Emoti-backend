@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-    // ==============================
+    
     // GET ALL APPOINTMENTS
-    // ==============================
+    
     public function index()
     {
         $appointments = Appointment::with(['user', 'counselor'])
@@ -23,9 +23,9 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    // ==============================
+    
     // GET USER APPOINTMENTS
-    // ==============================
+    
     public function userAppointments()
     {
         $appointments = Appointment::with('counselor')
@@ -39,9 +39,9 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    // ==============================
+    
     // GET COUNSELOR APPOINTMENTS
-    // ==============================
+    
     public function counselorAppointments()
     {
         $appointments = Appointment::with('user')
@@ -55,9 +55,9 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    // ==============================
+    
     // STORE APPOINTMENT
-    // ==============================
+    
     public function store(Request $request)
 {
     $validated = $request->validate([
@@ -66,7 +66,7 @@ class AppointmentController extends Controller
         'patient_phone'     => 'nullable|string|max:20',
         'contact_number'    => 'nullable|string|max:20',
         'patient_email'     => 'nullable|email|max:255',
-        'service'           => 'required|string|max:255',
+        'reason'           => 'required|string|max:255',
         'address'           => 'nullable|string',
         'appointment_date'  => 'required|date',
         'appointment_time'  => 'required|string|max:10',
@@ -102,9 +102,9 @@ class AppointmentController extends Controller
         'data'    => $appointment,
     ], 201);
 }
-    // ==============================
+    
     // SHOW SINGLE APPOINTMENT
-    // ==============================
+    
     public function show($id)
     {
         $appointment = Appointment::with(['user', 'counselor'])
@@ -123,9 +123,9 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    // ==============================
+    
     // UPDATE APPOINTMENT STATUS
-    // ==============================
+    
     public function update(Request $request, $id)
     {
         $appointment = Appointment::find($id);
@@ -151,9 +151,9 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    // ==============================
+    
     // DELETE APPOINTMENT
-    // ==============================
+    
     public function destroy($id)
     {
         $appointment = Appointment::find($id);

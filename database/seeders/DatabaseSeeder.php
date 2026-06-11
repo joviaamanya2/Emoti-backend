@@ -80,6 +80,8 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
+        $this->call(\Database\Seeders\AdminSeeder::class);
+
         foreach ($testimonials as $t) {
             \App\Models\UserTestimonial::create($t);
         }

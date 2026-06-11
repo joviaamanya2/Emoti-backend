@@ -17,7 +17,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->foreignId('emotion_id')
+            $table->foreignId('mood_id')
                 ->constrained()
                 ->cascadeOnDelete();
         });

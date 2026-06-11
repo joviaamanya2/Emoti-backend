@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTestimonial extends Model
 {
+    public $timestamps = false;
     protected $table = 'user_testimonials';
-
-    public $timestamps = true;
-
     protected $fillable = [
         'user_id',
         'user_name',

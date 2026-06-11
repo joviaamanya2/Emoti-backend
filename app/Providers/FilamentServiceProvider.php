@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
-use App\Filament\Widgets\UserChartWidget;
+use App\Filament\Widgets\EmotiUserChartWidget;
 use Filament\Navigation\NavigationItem;
 use App\Filament\Navigation\Menu;
 
@@ -35,7 +35,7 @@ class FilamentServiceProvider extends ServiceProvider
 
             // Register dashboard widgets
             Filament::registerWidgets([
-                UserChartWidget::class,
+                EmotiUserChartWidget::class,
             ]);
         });
     }

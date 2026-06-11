@@ -36,9 +36,6 @@ class EmotionResource extends Resource
                 TextInput::make('emoji')
                     ->label('Emoji'),
 
-                Textarea::make('description')
-                    ->label('Description')
-                    ->rows(3),
             ]);
     }
 
@@ -49,7 +46,6 @@ class EmotionResource extends Resource
                 TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('mood')->label('Mood')->searchable()->sortable(),
                 TextColumn::make('emoji')->label('Emoji'),
-                TextColumn::make('description')->label('Description')->limit(50),
                 TextColumn::make('created_at')->label('Created')->dateTime(),
             ])
             ->filters([

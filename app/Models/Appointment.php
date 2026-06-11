@@ -11,9 +11,10 @@ class Appointment extends Model
         'user_id',
         'counselor_id',
         'patient_name',
-        'patient_phone',       // ✅ THIS WAS MISSING
+        'patient_phone',
         'contact_number',
         'patient_email',
+        'reason',
         'service',
         'address',
         'appointment_date',
