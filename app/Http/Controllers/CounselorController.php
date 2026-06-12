@@ -5,13 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Counselor;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\CounselorController;
-Route::get('/counselors', [CounselorController::class, 'index']);
-Route::post('/counselors', [CounselorController::class, 'store']);
-Route::get('/counselors/{id}', [CounselorController::class, 'show']);
-Route::put('/counselors/{id}', [CounselorController::class, 'update']);
-Route::delete('/counselors/{id}', [CounselorController::class, 'destroy']);
-Route::patch('/counselors/{id}/toggle-status', [CounselorController::class, 'toggleStatus']);
 
 class CounselorController extends Controller
 {

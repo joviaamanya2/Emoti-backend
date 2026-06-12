@@ -24,7 +24,15 @@ use App\Http\Controllers\CounselorSessionLogController;
 | PUBLIC ROUTES (NO AUTH REQUIRED)
 |--------------------------------------------------------------------------
 */
+use App\Http\Controllers\CounselorController;
+use Illuminate\Support\Facades\Route;
 
+Route::get('/counselors', [CounselorController::class, 'index']);
+Route::post('/counselors', [CounselorController::class, 'store']);
+Route::get('/counselors/{id}', [CounselorController::class, 'show']);
+Route::put('/counselors/{id}', [CounselorController::class, 'update']);
+Route::delete('/counselors/{id}', [CounselorController::class, 'destroy']);
+Route::patch('/counselors/{id}/toggle-status', [CounselorController::class, 'toggleStatus']);
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
