@@ -46,3 +46,20 @@ Route::prefix(config('filament.path', 'admin'))->middleware(['auth'])->group(fun
 
 
 require __DIR__.'/auth.php';
+
+Route::get('/session-test', function () {
+    session(['test' => 'working']);
+    
+    return response()->json([
+        'session_value' => session('test'),
+        'session_id' => session()->getId(),
+    ]);
+});
+Route::get('/debug-config', function () {
+    return response()->json([
+        'app_env' => config('app.env'),
+        'app_url' => config('app.url'),
+        'session_driver' => config('session.driver'),
+        'session_secure' => config('session.secure'),
+    ]);
+});
