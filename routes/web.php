@@ -63,3 +63,6 @@ Route::get('/debug-config', function () {
         'session_secure' => config('session.secure'),
     ]);
 });
+Route::get('/render-test', function () {
+    return 'Render deployment is updated';
+});
