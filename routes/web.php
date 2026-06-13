@@ -78,4 +78,10 @@ Route::prefix(config('filament.path', 'admin'))
             ->name('admin.dashboard');
     });
 
+Route::get('/setup', function () {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return 'Setup completed successfully! Please go back and try to login now.';
+});
+
 require __DIR__ . '/auth.php';
