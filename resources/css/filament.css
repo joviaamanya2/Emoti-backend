@@ -20,40 +20,42 @@
 
 .filament-sidebar-header,
 .filament-sidebar-header:before {
-    background-image: linear-gradient(to right, #86efac, #34d399) !important;
+    background-image: none !important;
+    background-color: #ffffff !important;
 }
 
 .filament-sidebar {
-    background-color: #115e59 !important;
-    background-image: linear-gradient(180deg, #16a34a 0%, #059669 100%) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border-right: 1px solid #e5e7eb !important;
 }
 
 .filament-sidebar a,
 .filament-sidebar .filament-sidebar-item,
-.filament-sidebar .filament-sidebar-item a,
-.filament-sidebar .filament-sidebar-group-label {
-    color: #f8fafc !important;
+.filament-sidebar .filament-sidebar-item a {
+    color: #111827 !important;
 }
 
 .filament-sidebar .filament-sidebar-group-label {
-    font-weight: 900 !important;
-    letter-spacing: 0.04em !important;
+    color: #6b7280 !important;
+    font-weight: 800 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
-    margin-top: 1rem !important;
+    margin-top: 1.5rem !important;
     display: inline-block !important;
 }
 
 .filament-sidebar .filament-sidebar-item,
 .filament-sidebar .filament-sidebar-item a {
-    font-weight: 700 !important;
+    font-weight: 600 !important;
 }
 
 .filament-sidebar .filament-sidebar-item.active,
 .filament-sidebar .filament-sidebar-item:hover,
 .filament-sidebar .filament-sidebar-item a:hover {
-    background-color: rgba(52, 211, 153, 0.24) !important;
-    color: #ffffff !important;
+    background-color: #f0fdf4 !important;
+    color: #16a34a !important;
 }
 
 .filament-button-primary,
