@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+
 class Storybook extends Model implements HasMedia
 {
     use InteractsWithMedia;
@@ -38,5 +39,9 @@ class Storybook extends Model implements HasMedia
     public function emotions(): BelongsToMany
     {
         return $this->belongsToMany(Emotion::class, 'emotion_storybook', 'storybook_id', 'mood_id');
+    }
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover_image')->singleFile();
     }
 }

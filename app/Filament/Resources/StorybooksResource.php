@@ -9,6 +9,9 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+// Import Spatie Media Library components
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class StorybooksResource extends Resource
 {
@@ -29,9 +32,10 @@ class StorybooksResource extends Resource
             Forms\Components\TextInput::make('author')
                 ->maxLength(255),
 
-            Forms\Components\FileUpload::make('cover_image')
+            // FIXED: Changed to SpatieMediaLibraryFileUpload
+            SpatieMediaLibraryFileUpload::make('cover_image')
+                ->collection('cover_image') // Make sure this matches the collection name in your Storybook model
                 ->image()
-                ->directory('storybook-covers')
                 ->maxSize(2048),
 
             Forms\Components\Select::make('category')
@@ -85,7 +89,9 @@ class StorybooksResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('cover_image')
+                // FIXED: Changed to SpatieMediaLibraryImageColumn
+                SpatieMediaLibraryImageColumn::make('cover_image')
+                    ->collection('cover_image') // Make sure this matches the collection name in your Storybook model
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('title')
@@ -96,13 +102,6 @@ class StorybooksResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('category'),
-                    // ->formatStateUsing(function ($value) {
-                    //     if (empty($value)) {
-                    //         return 'N/A';
-                    //     }
-
-                    //     return ucwords(str_replace('_', ' ', $value));
-                    // }),
 
                 Tables\Columns\TextColumn::make('age_group'),
 
