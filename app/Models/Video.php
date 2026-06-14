@@ -31,6 +31,10 @@ class Video extends Model implements HasMedia
     public function emotions(): BelongsToMany
     {
         return $this->belongsToMany(Emotion::class);
+        
+   
+       return $this->belongsToMany(Emotion::class, 'emotion_video', 'video_id', 'mood_id');
+
     }
     
     public function registerMediaCollections(): void
@@ -38,4 +42,8 @@ class Video extends Model implements HasMedia
         $this->addMediaCollection('video-thumbnails')
             ->singleFile();
     }
+    // In App\Models\Video.php
+
+
+
 }

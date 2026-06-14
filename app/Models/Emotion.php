@@ -31,4 +31,9 @@ class Emotion extends Model
     {
         return $this->hasMany(Recommendation::class, 'mood_id');
     }
+    public function videos()
+    {
+        // Arguments: Related Model, Pivot Table Name, Foreign Key of Current Model, Foreign Key of Related Model
+        return $this->belongsToMany(Video::class, 'emotion_video', 'mood_id', 'video_id');
+    }
 }
