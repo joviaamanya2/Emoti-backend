@@ -6,8 +6,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Media\HasMedia;
-use Spatie\Media\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;           
+use Spatie\MediaLibrary\InteractsWithMedia; 
 
 class Video extends Model implements HasMedia
 {
