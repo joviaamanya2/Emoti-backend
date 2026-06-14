@@ -6,8 +6,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Media\HasMedia;
+use Spatie\Media\InteractsWithMedia;
 
 class Video extends Model implements HasMedia
 {
@@ -30,11 +30,7 @@ class Video extends Model implements HasMedia
     
     public function emotions(): BelongsToMany
     {
-        return $this->belongsToMany(Emotion::class);
-        
-   
-       return $this->belongsToMany(Emotion::class, 'emotion_video', 'video_id', 'mood_id');
-
+        return $this->belongsToMany(Emotion::class, 'emotion_video', 'video_id', 'mood_id');
     }
     
     public function registerMediaCollections(): void
@@ -42,8 +38,4 @@ class Video extends Model implements HasMedia
         $this->addMediaCollection('video-thumbnails')
             ->singleFile();
     }
-    // In App\Models\Video.php
-
-
-
 }
