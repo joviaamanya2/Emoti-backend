@@ -9,6 +9,9 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+// Import the Spatie Media Library components
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class VideoResource extends Resource
 {
@@ -68,9 +71,10 @@ class VideoResource extends Resource
                     ->relationship('emotions', 'mood')
                     ->label('Related Emotions'),
 
-                Forms\Components\FileUpload::make('thumbnail')
+                // FIXED: Using Spatie Media Library Upload
+                SpatieMediaLibraryFileUpload::make('thumbnail')
+                    ->collection('video-thumbnails') // Must match the collection in your Video model
                     ->image()
-                    ->directory('video-thumbnails')
                     ->label('Thumbnail'),
             ]);
     }
@@ -79,7 +83,9 @@ class VideoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('thumbnail')
+                // FIXED: Using Spatie Media Library Image Column
+                SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->collection('video-thumbnails') // Must match the collection in your Video model
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('title')

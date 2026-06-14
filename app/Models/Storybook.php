@@ -37,6 +37,6 @@ class Storybook extends Model implements HasMedia
     // Relationship to Emotion via pivot table 'emotion_storybook'
     public function emotions(): BelongsToMany
     {
-        return $this->belongsToMany(Emotion::class, 'emotion_storybook', 'storybook_id', 'emotion_id');
+        return $this->belongsToMany(Emotion::class, 'emotion_storybook', 'storybook_id', 'mood_id');
     }
 }
