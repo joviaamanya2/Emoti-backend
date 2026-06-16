@@ -72,7 +72,14 @@ return [
     |
     */
 
-    'brand' => env('APP_NAME'),
+    'brand' => env('APP_NAME', 'Emoti App'),
+
+    // Override default colors to use a green palette
+    'colors' => [
+        'primary' => \Filament\Support\Colors\Color::Emerald,
+        // Optional: change warning from orange to green as well
+        'warning' => \Filament\Support\Colors\Color::Emerald,
+    ],
 
     /*
     |--------------------------------------------------------------------------

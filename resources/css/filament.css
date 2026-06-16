@@ -21,13 +21,19 @@
 .filament-sidebar-header,
 .filament-sidebar-header:before {
     background-image: none !important;
-    background-color: #ffffff !important;
+    background-color: #10b981 !important; /* Emerald green */
+    color: #ffffff !important;
 }
 
 .filament-sidebar {
     background-color: #ffffff !important;
     background-image: none !important;
     border-right: 1px solid #e5e7eb !important;
+}
+
+.filament-topbar {
+    background-color: #10b981 !important;
+    color: #ffffff !important;
 }
 
 .filament-sidebar a,
