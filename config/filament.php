@@ -82,11 +82,11 @@ return [
                 200 => '#a7f3d0',
                 300 => '#6ee7b7',
                 400 => '#34d399',
-                500 => '#10b981',
-                600 => '#059669',
-                700 => '#047857',
-                800 => '#065f46',
-                900 => '#064e3b',
+                500 => '#1eb910ff',
+                600 => '#10b42cff',
+                700 => '#34a318ff',
+                800 => '#13aa1aff',
+                900 => '#128517ff',
             ],
         ],
     /*
@@ -155,7 +155,6 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             Widgets\AccountWidget::class,
-            Widgets\FilamentInfoWidget::class,
         ],
     ],
 

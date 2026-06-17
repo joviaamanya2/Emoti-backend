@@ -1,6 +1,6 @@
 <div class="flex flex-col h-screen w-64 shadow-lg bg-white">
     <!-- Brand -->
-    <div class="bg-green-600 text-white p-4 text-2xl font-bold tracking-wide">
+    <div class="bg-emerald-600 text-white p-4 text-2xl font-bold tracking-wide">
         Emoti App
     </div>
 
