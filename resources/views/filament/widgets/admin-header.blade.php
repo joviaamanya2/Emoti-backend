@@ -1,5 +1,5 @@
 <x-filament::widget>
-    <x-filament::card class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg w-full p-6">
+    <x-filament::card class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg w-full p-6 admin-header-card">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">{{ $appName }}</h1>
