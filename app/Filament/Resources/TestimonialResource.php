@@ -34,9 +34,12 @@ class TestimonialResource extends Resource
                     ->relationship('user', 'name')
                     ->nullable(),
 
-
-                Forms\Components\Toggle::make('is_approved')    // ← Changed from 'approved'
+                Forms\Components\Toggle::make('is_approved')
                     ->label('Approved'),
+                    
+              
+                Forms\Components\Toggle::make('display_on_ui')
+                    ->label('Can be displayed on UI'),
             ]);
     }
 
@@ -48,16 +51,18 @@ class TestimonialResource extends Resource
                     ->label('User')
                     ->default('Anonymous'),
 
-                
-
-                Tables\Columns\TextColumn::make('user_name')
-                    ->label('Guest Name'),
+                // Corrected: Using 'display_on_ui' and placed inside the array
+                Tables\Columns\IconColumn::make('display_on_ui')
+                    ->label('Can be displayed on UI')
+                    ->boolean(),
 
                 Tables\Columns\IconColumn::make('is_approved')
                     ->boolean(),
 
+                // Fixed to display specific date/time details and made sortable
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime('M j, Y g:i A') // Displays like: Jan 5, 2023 2:30 PM
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -65,7 +70,7 @@ class TestimonialResource extends Resource
             ]);
     }
 
-    public static function getPages(): array  // ← FIXED: Capital 'P'
+    public static function getPages(): array
     {
         return [
             'index' => Pages\ListTestimonials::route('/'),

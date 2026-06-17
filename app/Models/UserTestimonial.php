@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTestimonial extends Model
 {
-    public $timestamps = false;
+    // REMOVED: public $timestamps = false; 
+    // (Your migration has timestamps(), so we want Laravel to auto-manage them)
+
     protected $table = 'user_testimonials';
+
     protected $fillable = [
         'user_id',
         'user_name',
@@ -20,8 +23,15 @@ class UserTestimonial extends Model
         'is_approved',
         'helpful_count',
         'display_name_type',
-        'created_at',
-        'updated_at',
+        'display_on_ui', // <--- ADDED
+        // REMOVED 'created_at' and 'updated_at' from fillable 
+        // because Laravel handles them automatically now
+    ];
+
+    // ADDED: Cast these to boolean so Filament Toggles work correctly
+    protected $casts = [
+        'is_approved' => 'boolean',
+        'display_on_ui' => 'boolean',
     ];
 
     public function user()
